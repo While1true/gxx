@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/FZGJJ.iml" filepath="$PROJECT_DIR$/FZGJJ.iml" />
+      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/bgarefresh/bgarefresh.iml" filepath="$PROJECT_DIR$/bgarefresh/bgarefresh.iml" />
+      <module fileurl="file://$PROJECT_DIR$/nestrefreshlib/nestrefreshlib.iml" filepath="$PROJECT_DIR$/nestrefreshlib/nestrefreshlib.iml" />
+      <module fileurl="file://$PROJECT_DIR$/p2r/p2r.iml" filepath="$PROJECT_DIR$/p2r/p2r.iml" />
+      <module fileurl="file://$PROJECT_DIR$/refreshlayout_Master/refreshlayout_Master.iml" filepath="$PROJECT_DIR$/refreshlayout_Master/refreshlayout_Master.iml" />
+      <module fileurl="file://$PROJECT_DIR$/rx/rx.iml" filepath="$PROJECT_DIR$/rx/rx.iml" />
+    </modules>
+  </component>
+</project>

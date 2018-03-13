@@ -1,0 +1,14 @@
+[
+    {
+        "merged": "D:\\demo\\FZGJJ\\p2r\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\indicator_arrow.png",
+        "source": "D:\\demo\\FZGJJ\\p2r\\src\\main\\res\\drawable-xhdpi\\indicator_arrow.png"
+    },
+    {
+        "merged": "D:\\demo\\FZGJJ\\p2r\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\default_ptr_flip.png",
+        "source": "D:\\demo\\FZGJJ\\p2r\\src\\main\\res\\drawable-xhdpi\\default_ptr_flip.png"
+    },
+    {
+        "merged": "D:\\demo\\FZGJJ\\p2r\\build\\intermediates\\res\\merged\\release\\drawable-xhdpi-v4\\default_ptr_rotate.png",
+        "source": "D:\\demo\\FZGJJ\\p2r\\src\\main\\res\\drawable-xhdpi\\default_ptr_rotate.png"
+    }
+]

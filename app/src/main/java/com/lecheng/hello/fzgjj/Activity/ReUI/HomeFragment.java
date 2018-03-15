@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -63,6 +64,9 @@ public class HomeFragment extends BaseFragment {
         recyclerView.setItemAnimator(new FlipInTopXAnimator());
         int i = SizeUtils.dp2px(12);
         refreshLayout.setPadding(i, 0, i, 0);
+        View inflate = getLayoutInflater().inflate(R.layout.item_home, refreshLayout,false);
+        inflate.measure(0,0);
+        final int wrapmeasuredHeight = inflate.getMeasuredHeight();
         sAdapter = new SAdapter(res.length)
                 .addType(R.layout.item_home, new PositionHolder() {
                     @Override
@@ -71,13 +75,11 @@ public class HomeFragment extends BaseFragment {
                         simpleViewHolder.setText(R.id.tv1, titles[i]);
 
                         int measuredHeight = refreshLayout.getHeight();
-                        int halfHeight = (int) (measuredHeight * 3.25 / 11);
+                        int eachSpace = (measuredHeight -3*wrapmeasuredHeight)/4;
+
+                        int heightx= i<3? (int) (wrapmeasuredHeight + eachSpace * 1.5) :wrapmeasuredHeight+eachSpace;
                         LinearLayout linearLayout = simpleViewHolder.getView(R.id.root);
-                        linearLayout.setPadding(0, i<3?halfHeight/3:halfHeight / 6, 0, halfHeight / 6);
-                        int heightx=i<3?halfHeight*7/6:halfHeight;
-                        if(heightx<SizeUtils.dp2px(80)){
-                            heightx=SizeUtils.dp2px(80);
-                        }
+                        linearLayout.setPadding(0,i<3?eachSpace:eachSpace/2,0,eachSpace/2);
                         simpleViewHolder.itemView.getLayoutParams().height = heightx;
 
 

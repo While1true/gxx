@@ -45,8 +45,10 @@ public class BlankActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
+        StateBarUtils.hideBottomUIMenu(getWindow());
         super.onCreate(savedInstanceState);
-        StateBarUtils.performTransStateBar(getWindow());
+//        StateBarUtils.performTransStateBar(getWindow());
+
         /**
          * 上传ip地址
          */

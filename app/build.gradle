@@ -15,8 +15,8 @@ android {
         applicationId "com.lecheng.hello.fzgjj"
         minSdkVersion 14
         targetSdkVersion 22
-        versionCode 5
-        versionName "1.4"
+        versionCode 7
+        versionName "1.5.1"
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         vectorDrawables.useSupportLibrary = true
 //        jackOptions {
@@ -53,6 +53,12 @@ android {
         // but continue the build even when errors are found:
         abortOnError false
     }
+
+    android.applicationVariants.all { variant ->
+        variant.outputs.all {
+            outputFileName = "fjszgjj_v${variant.versionName}.apk"
+        }
+    }
 }
 repositories { flatDir { dirs 'libs' } }
 dependencies {
@@ -81,6 +87,7 @@ dependencies {
     compile('jp.wasabeef:recyclerview-animators:2.2.7') {
         exclude group: 'com.android.support'
     }
+
     compile(name: 'nestrefreshlib-release', ext: 'aar')
 //    compile(name: 'refreshlayout_Master-release', ext: 'aar')
     compile(name: 'rx-release', ext: 'aar')

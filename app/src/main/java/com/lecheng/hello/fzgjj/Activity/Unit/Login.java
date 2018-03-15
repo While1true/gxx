@@ -191,7 +191,7 @@ public class Login extends DialogFragment implements IWSListener {
             MySP.saveData(getActivity(), "vc", bean.getData().getVerioncode());
 
             new MyToast(getActivity(), "登录成功！", 1);
-            dismiss();
+            getFragmentManager().popBackStack();
             MiPushUtils.init(getActivity().getApplication());
 //            PushManager.startWork(getActivity().getApplicationContext(), PushConstants.LOGIN_TYPE_API_KEY, MainActivity.PUSH_API_KEY);//百度推送注册
 //            PushManager.resumeWork(getActivity());

@@ -44,8 +44,6 @@ public class PushMessageActivity extends AppCompatActivity {
     ImageView ivBack;
     @Bind(R.id.tvTitle)
     TextView tvTitle;
-    @Bind(R.id.iv_menu)
-    ImageView ivMenu;
     @Bind(R.id.ll)
     LinearLayout ll;
     @Bind(R.id.srecyclerview)
@@ -162,13 +160,11 @@ public class PushMessageActivity extends AppCompatActivity {
         tv.setText(charSequence);
     }
 
-    @OnClick({R.id.iv_back, R.id.iv_menu})
+    @OnClick({R.id.iv_back})
     public void onViewClicked(View view) {
         switch (view.getId()) {
             case R.id.iv_back:
                 finish();
-                break;
-            case R.id.iv_menu:
                 break;
         }
     }

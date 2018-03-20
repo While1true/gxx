@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.ItemHolder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
@@ -17,6 +18,7 @@ import com.lecheng.hello.fzgjj.Activity.Unit.Login;
 import com.lecheng.hello.fzgjj.R;
 import com.lecheng.hello.fzgjj.Utils.FragUtil;
 import com.lecheng.hello.fzgjj.Utils.MySP;
+import com.lecheng.hello.fzgjj.Widget.SettingView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -40,17 +42,21 @@ public class Services extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup c, Bundle sis) {
-        View view = inflater.inflate(R.layout.home2, c, false);
+        View view = inflater.inflate(R.layout.home4, c, false);
         ButterKnife.bind(this, view);
         List<String> list = Arrays.asList(array);
         RecyclerView recyclerView = refreshLayout.getmScroll();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        DividerItemDecoration decor = new DividerItemDecoration(getContext(), LinearLayout.VERTICAL);
+        decor.setDrawable(getResources().getDrawable(R.drawable.list_divider_material));
+        recyclerView.addItemDecoration(decor);
         SAdapter sAdapter = new SAdapter<>(list)
-                .addType(R.layout.item1, new ItemHolder<String>() {
+                .addType(R.layout.settingview, new ItemHolder<String>() {
                             @Override
                             public void onBind(SimpleViewHolder simpleViewHolder, String s, final int i) {
-                                simpleViewHolder.setText(R.id.tv1, s);
-                                simpleViewHolder.setImageResource(R.id.iv1, arrImgRes[i]);
+                                SettingView settingView=simpleViewHolder.getView(R.id.settingview);
+                                settingView.setTitleText(s);
+                                settingView.setTitledrawable(arrImgRes[i],0,0,0);
                                 simpleViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                                     @Override
                                     public void onClick(View v) {
@@ -97,7 +103,6 @@ public class Services extends Fragment {
                                 return true;
                             }
                         });
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(sAdapter);
         return view;
     }

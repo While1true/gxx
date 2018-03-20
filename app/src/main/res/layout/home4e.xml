@@ -22,36 +22,15 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/tv1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:background="@color/colorTextGray1"
-            android:padding="@dimen/fab_margin"
-            android:text="客服人员"
-            android:textSize="18dp" />
-
-        <ListView
+        <coms.kxjsj.refreshlayout_master.RefreshLayout
             android:id="@+id/lv1"
             android:divider="#00000000"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="1" />
-        <ScrollView
+            app:elastic_overscroll="true"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:visibility="gone">
-
-            <TextView
-                android:id="@+id/tv2"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:padding="@dimen/fab_margin"
-                android:textSize="@dimen/md_16dp" />
-        </ScrollView>
-
+            android:layout_height="0dp"
+            android:layout_weight="1" />
         <LinearLayout
+            android:id="@+id/footer"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="@dimen/fab_margin">

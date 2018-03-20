@@ -7,6 +7,9 @@ import android.util.Log;
 import android.view.View;
 
 import com.blankj.utilcode.util.SizeUtils;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.ItemHolder;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
+import com.ck.hello.nestrefreshlib.View.Adpater.Impliment.SAdapter;
 import com.ck.hello.nestrefreshlib.View.RefreshViews.SRecyclerView;
 import com.lecheng.hello.fzgjj.Activity.Unit.BaseTitleActivity;
 import com.lecheng.hello.fzgjj.Bean.SurveyCategory;
@@ -33,6 +36,8 @@ public class PeopleSurveyActivity extends BaseTitleActivity {
 
     private SRecyclerView recyclerView;
     private List<SurveyCategory> lis;
+    private SAdapter sAdapter;
+
     @Override
     protected int getContentLayoutId() {
         return R.layout.srecyclerview;
@@ -64,7 +69,7 @@ public class PeopleSurveyActivity extends BaseTitleActivity {
             @Override
             public void onNext(List<SurveyCategory> lists) {
                 recyclerView.notifyRefreshComplete();
-                if (lists != null) {
+                if (lists != null&&!lists.isEmpty()) {
                     Collections.sort(lists, new Comparator<SurveyCategory>() {
                         @Override
                         public int compare(SurveyCategory o1, SurveyCategory o2) {
@@ -72,11 +77,11 @@ public class PeopleSurveyActivity extends BaseTitleActivity {
                             return i;
                         }
                     });
-                    recyclerView.setAdapter(new LinearLayoutManager(PeopleSurveyActivity.this),new CommonAdapter<SurveyCategory>(PeopleSurveyActivity.this, R.layout.survey_item, lists) {
+                    sAdapter = new SAdapter(lists);
+                    recyclerView.setAdapter(new LinearLayoutManager(PeopleSurveyActivity.this), sAdapter
+                    .addType(R.layout.survey_item, new ItemHolder<SurveyCategory>() {
                         @Override
-                        protected void convert(ViewHolder holder, final SurveyCategory s, int position) {
-                            if (Constance.DEBUGTAG)
-                                Log.i(Constance.DEBUG + "--" + getClass().getSimpleName() + "--", "convert: "+s);
+                        public void onBind(SimpleViewHolder holder,final  SurveyCategory s, int i) {
                             holder.setText(R.id.survey_title, s.getTitle());
                             holder.setText(R.id.start_endTime, s.getTerm());
                             if (Constance.DEBUGTAG)
@@ -104,7 +109,16 @@ public class PeopleSurveyActivity extends BaseTitleActivity {
                                 }
                             });
                         }
-                    });
+
+                        @Override
+                        public boolean istype(SurveyCategory surveyCategory, int i) {
+                            return true;
+                        }
+                    }));
+                }else{
+                    sAdapter = new SAdapter();
+                    recyclerView.setAdapter(new LinearLayoutManager(PeopleSurveyActivity.this), sAdapter);
+                    sAdapter.showEmpty();
                 }
             }
 

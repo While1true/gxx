@@ -4,11 +4,13 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.ItemHolder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
@@ -30,6 +32,7 @@ import com.lecheng.hello.fzgjj.Utils.FragUtil;
 import com.lecheng.hello.fzgjj.Utils.MySP;
 import com.lecheng.hello.fzgjj.Utils.MyToast;
 import com.lecheng.hello.fzgjj.Utils.UpdateUtils;
+import com.lecheng.hello.fzgjj.Widget.SettingView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -45,11 +48,13 @@ public class HelpCenterFragment extends Fragment {
     @Bind(R.id.refreshLayout)
     RefreshLayout refreshLayout;
 
-    private String[] arrayLv = {"在线客服",
-            "平台搜索", "在线问答", "疑难解答", "投诉建议", "在线调查", "民意征集"};
-    private int[] arrImgRes2 = { R.drawable.ic_d3, R.drawable.ic_d6, R.drawable.ic_d3,
-            R.drawable.ic_d5, R.drawable.ic_d2, R.drawable.ic_d7, R.drawable.ic_d6
-            };
+    //    private String[] arrayLv = {"在线客服",
+//            "平台搜索", "在线问答", "疑难解答", "投诉建议", "在线调查", "民意征集"};
+//    private int[] arrImgRes2 = { R.drawable.ic_d3, R.drawable.ic_d6, R.drawable.ic_d3,
+//            R.drawable.ic_d5, R.drawable.ic_d2, R.drawable.ic_d7, R.drawable.ic_d6
+//            };
+    private String[] arrayLv = {"在线问答", "疑难解答","投诉建议","在线调查","民意征集","常见问题"};
+    private int[] arrImgRes2 = {R.drawable.ic_online_ask,R.drawable.ic_puzzle,R.drawable.ic_suggest,R.drawable.ic_online_survey,R.drawable.ic_collect_suggest,R.drawable.ic_problems};
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup c, Bundle sis) {
@@ -61,42 +66,25 @@ public class HelpCenterFragment extends Fragment {
 
     private void init() {
         List<String> list2 = Arrays.asList(arrayLv);
-        RecyclerView recyclerView=refreshLayout.getmScroll();
+        RecyclerView recyclerView = refreshLayout.getmScroll();
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
-        SAdapter sAdapter=new SAdapter<>(list2)
-                .addType(R.layout.item1_2, new ItemHolder<String>() {
+        DividerItemDecoration decor = new DividerItemDecoration(getContext(), LinearLayout.VERTICAL);
+        decor.setDrawable(getResources().getDrawable(R.drawable.list_divider_material));
+        recyclerView.addItemDecoration(decor);
+        SAdapter sAdapter = new SAdapter<>(list2)
+                .addType(R.layout.settingview, new ItemHolder<String>() {
                     @Override
                     public void onBind(SimpleViewHolder simpleViewHolder, String s, final int i) {
-                        simpleViewHolder.setText(R.id.tv1, s);
-                        simpleViewHolder.setImageResource(R.id.iv1, arrImgRes2[i]);
+                        SettingView settingView=simpleViewHolder.getView(R.id.settingview);
+                        settingView.setTitleText(s);
+                        settingView.setTitledrawable(arrImgRes2[i],0,0,0);
                         simpleViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 if (MySP.loadData(getActivity(), "username", "").toString().equals(""))
-                                    FragUtil.startFragmentFullScreen(getActivity(),Login.getInstance());
-                                else switch (i) {
-                                    case 0:
-                                        startActivity(new Intent(getActivity(), Help.class));
-                                        break;
-                                    case 1:
-                                        startActivity(new Intent(getActivity(), AllSearch.class));
-                                        break;
-                                    case 2:
-                                        startActivity(new Intent(getActivity(), OnlineCommunicate.class));
-                                        break;
-                                    case 3:
-                                        startActivity(new Intent(getActivity(), ProblemsListActivity.class));
-                                        break;
-                                    case 4:
-                                        startActivity(new Intent(getActivity(), Suggest.class));
-                                        break;
-                                    case 5:
-                                        startActivity(new Intent(getActivity(), SurveyActivity.class));
-                                        break;
-                                    case 6:
-                                        startActivity(new Intent(getActivity(), PeopleSurveyActivity.class));
-                                        break;
-                                }
+                                    FragUtil.startFragmentFullScreen(getActivity(), Login.getInstance());
+                                else
+                                    doclick(i);
                             }
                         });
                     }
@@ -106,9 +94,58 @@ public class HelpCenterFragment extends Fragment {
                         return true;
                     }
                 });
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
         recyclerView.setAdapter(sAdapter);
 
+    }
+    private void doclick(int i) {
+        switch (i) {
+            case 0:
+                startActivity(new Intent(getActivity(), OnlineCommunicate.class));
+                break;
+            case 1:
+                startActivity(new Intent(getActivity(), ProblemsListActivity.class));
+                break;
+            case 2:
+                startActivity(new Intent(getActivity(), Suggest.class));
+                break;
+            case 3:
+                startActivity(new Intent(getActivity(), SurveyActivity.class));
+                break;
+            case 4:
+                startActivity(new Intent(getActivity(), PeopleSurveyActivity.class));
+                break;
+            case 5:
+                Intent intent = new Intent(getActivity(), ProblemsListActivity.class);
+                intent.putExtra("iscommon",true);
+                startActivity(intent);
+                break;
+        }
+    }
+    @Deprecated
+    private void doclickOld(int i) {
+        switch (i) {
+        case 0:
+            startActivity(new Intent(getActivity(), Help.class));
+            break;
+        case 1:
+            startActivity(new Intent(getActivity(), AllSearch.class));
+            break;
+        case 2:
+            startActivity(new Intent(getActivity(), OnlineCommunicate.class));
+            break;
+        case 3:
+            startActivity(new Intent(getActivity(), ProblemsListActivity.class));
+            break;
+        case 4:
+            startActivity(new Intent(getActivity(), Suggest.class));
+            break;
+        case 5:
+            startActivity(new Intent(getActivity(), SurveyActivity.class));
+            break;
+        case 6:
+            startActivity(new Intent(getActivity(), PeopleSurveyActivity.class));
+            break;
+    }
     }
 
     @Override

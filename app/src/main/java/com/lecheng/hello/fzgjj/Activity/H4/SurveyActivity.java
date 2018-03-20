@@ -7,6 +7,7 @@ import android.util.Log;
 import android.view.View;
 
 import com.blankj.utilcode.util.SizeUtils;
+import com.ck.hello.nestrefreshlib.View.Adpater.Impliment.SAdapter;
 import com.ck.hello.nestrefreshlib.View.RefreshViews.SRecyclerView;
 import com.lecheng.hello.fzgjj.Activity.Unit.BaseTitleActivity;
 import com.lecheng.hello.fzgjj.Bean.SurveyCategory;
@@ -61,7 +62,7 @@ public class SurveyActivity extends BaseTitleActivity {
             @Override
             public void onNext(List<SurveyCategory> lists) {
                 recyclerView.notifyRefreshComplete();
-                if (lists != null) {
+                if (lists != null&&!lists.isEmpty()) {
                     Collections.sort(lists, new Comparator<SurveyCategory>() {
                         @Override
                         public int compare(SurveyCategory o1, SurveyCategory o2) {
@@ -99,6 +100,10 @@ public class SurveyActivity extends BaseTitleActivity {
                             });
                         }
                     });
+                }else {
+                    SAdapter adapter = new SAdapter();
+                    recyclerView.setAdapter(new LinearLayoutManager(SurveyActivity.this), adapter);
+                    adapter.showEmpty();
                 }
             }
 

@@ -9,7 +9,8 @@ import com.lecheng.hello.fzgjj.Activity.H1.NewsPager;
 public class AdptPager extends FragmentPagerAdapter {
 
     private Context context;
-    private static final String[] mTitles = {"工作动态", "政策法规", "办事指南", "政务公开"};
+//    private static final String[] mTitles = {"工作动态", "政策法规", "办事指南", "政务公开"};
+    private static final String[] mTitles = {"通知公告","工作动态", "政策法规"};
 
     public AdptPager(FragmentManager fm, Context context) {
         super(fm);

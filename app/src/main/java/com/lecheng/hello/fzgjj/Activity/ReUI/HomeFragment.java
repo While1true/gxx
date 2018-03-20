@@ -40,7 +40,7 @@ public class HomeFragment extends BaseFragment {
     ImageView header;
     @Bind(R.id.refreshLayout)
     RefreshLayout refreshLayout;
-    String[] titles = {"新闻资讯", "业务查询", "预约办理", "网点查询", "辅助工具", "便民服务", "办事指南", "楼盘查询", "个人中心"};
+    String[] titles = {"政策资讯", "业务查询", "预约办理", "网点查询", "辅助工具", "在线咨询", "办事指南", "楼盘查询", "个人中心"};
     int[] res = {R.drawable.xxfw1, R.drawable.xxfw2, R.drawable.xxfw3,
             R.drawable.xxfw4, R.drawable.xxfw5, R.drawable.gj_service, R.drawable.gj3, R.drawable.gj6, R.drawable.xxfw6};
     private RecyclerView recyclerView;
@@ -75,7 +75,7 @@ public class HomeFragment extends BaseFragment {
                         simpleViewHolder.setText(R.id.tv1, titles[i]);
 
                         int measuredHeight = refreshLayout.getHeight();
-                        int eachSpace = (measuredHeight -3*wrapmeasuredHeight)/4;
+                        int eachSpace = Math.max((measuredHeight -3*wrapmeasuredHeight)/4,SizeUtils.dp2px(5));
 
                         int heightx= i<3? (int) (wrapmeasuredHeight + eachSpace * 1.5) :wrapmeasuredHeight+eachSpace;
                         LinearLayout linearLayout = simpleViewHolder.getView(R.id.root);

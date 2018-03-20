@@ -1,6 +1,8 @@
 package com.lecheng.hello.fzgjj.Activity.H4;
 
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
@@ -8,9 +10,13 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.ItemHolder;
+import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
+import com.ck.hello.nestrefreshlib.View.Adpater.Impliment.SAdapter;
 import com.lecheng.hello.fzgjj.Activity.Unit.ActionBar;
 import com.lecheng.hello.fzgjj.Adpt.Common.UnityAdapter;
 import com.lecheng.hello.fzgjj.Adpt.Common.ViewHolder;
+import com.lecheng.hello.fzgjj.Bean.BeanPuzzleList;
 import com.lecheng.hello.fzgjj.Bean.BeanZxlyList;
 import com.lecheng.hello.fzgjj.Constance;
 import com.lecheng.hello.fzgjj.Interface.I047Listener;
@@ -28,19 +34,14 @@ import RxWeb.MyObserve;
 import butterknife.Bind;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
+import coms.kxjsj.refreshlayout_master.RefreshLayout;
 
 //小豆机器人：http://xiao.douqq.com/
-public class Puzzle extends BaseAppCompatActivity implements I047Listener, IWSListener {
-    @Bind(R.id.tv1)
-    TextView tv1;
+public class Puzzle extends BaseAppCompatActivity implements IWSListener {
     @Bind(R.id.lv1)
-    ListView lv1;
+    RefreshLayout lv1;
     @Bind(R.id.et1)
     EditText et1;
-    @Bind(R.id.tv2)
-    TextView tv2;
-    private String KEY = "bmZrS1FhdzZZRitXUFJ3OT1IaVdTdXo9TEJBQUFBPT0";
-    private String URL = "http://api.douqq.com/";
     private HttpGo httpGo = new HttpGo();
     private int type;
 
@@ -50,7 +51,7 @@ public class Puzzle extends BaseAppCompatActivity implements I047Listener, IWSLi
         setContentView(R.layout.home4e);
         ButterKnife.bind(this);
         ActionBar frag = (ActionBar) getFragmentManager().findFragmentById(R.id.frag);
-        frag.setTitle("疑问解答");
+        frag.setTitle("疑难解答");
         type = getIntent().getIntExtra("type", 1);
         /*tv1.append("00" + new Random().nextInt(9) + "为您解答");*/
         httpGo.httpWebService(this, this, "ynjdList", new String[]{"type"}, new String[]{type+""});
@@ -87,29 +88,33 @@ public class Puzzle extends BaseAppCompatActivity implements I047Listener, IWSLi
     }
 
     @Override
-    public void onSuccess(String strJson) {
-//        new MyToast(this, "" + strJson, 1);
-        tv2.append("客服：" + strJson + "\n\n");
-    }
-
-    @Override
     public void onWebServiceSuccess(String s) {
         try {
-            BeanZxlyList bean = GsonUtil.GsonToBean(s, BeanZxlyList.class);
-            lv1.setAdapter(new UnityAdapter<BeanZxlyList.DataBean>(this, bean.getData(), R.layout.item7_zxly) {
-                @Override
-                public void convert(ViewHolder helper, BeanZxlyList.DataBean item, int position) {
-                    helper.setText(R.id.tvTitle, item.getTitle());
-                    helper.setText(R.id.tv1, item.getName());
-                    helper.setText(R.id.tv2, item.getTwnr());
-                    helper.setText(R.id.tv4, item.getHfnr());
-                    try {
-                        helper.setText(R.id.tv3, "日期：" + item.getCreatedate().substring(2, 11));
-                        helper.setText(R.id.tv5, "日期：" + item.getUpdatedate().substring(2, 11));
-                    } catch (Exception e) {
-                    }
-                }
-            });
+            BeanPuzzleList bean = GsonUtil.GsonToBean(s, BeanPuzzleList.class);
+            SAdapter sAdapter=new SAdapter(bean.getData())
+                    .addType(R.layout.online_ask_item, new ItemHolder<BeanPuzzleList.DataBean>() {
+                        @Override
+                        public void onBind(SimpleViewHolder helper, BeanPuzzleList.DataBean item, int position) {
+                            helper.setText(R.id.title, (position + 1) + "  " + item.getTitle());
+//                          helper.setText(R.id.tv1, item.getName());
+                            helper.setText(R.id.ask, item.getTwnr());
+                            helper.setText(R.id.answer, item.getHfnr());
+                            try {
+                                helper.setText(R.id.time_ask, "日期：" + item.getCreatedate().substring(2, 11));
+                                helper.setText(R.id.time_answer, "日期：" + item.getUpdatedate().substring(2, 11));
+                            } catch (Exception e) {
+                            }
+                        }
+
+                        @Override
+                        public boolean istype(BeanPuzzleList.DataBean dataBean, int i) {
+                            return true;
+                        }
+                    });
+            RecyclerView recyclerView = lv1.getmScroll();
+            recyclerView.setVerticalScrollBarEnabled(false);
+            recyclerView.setLayoutManager(new LinearLayoutManager(Puzzle.this));
+            recyclerView.setAdapter(sAdapter);
         } catch (Exception e) {
             new MyToast(this, "数据解析失败", 0);
         }

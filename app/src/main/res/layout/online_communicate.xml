@@ -23,12 +23,13 @@
         android:orientation="vertical"
         android:padding="@dimen/fab_margin">
 
-        <ListView
+        <coms.kxjsj.refreshlayout_master.RefreshLayout
             android:id="@+id/lv1"
-            android:layout_width="wrap_content"
+            app:elastic_overscroll="true"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:divider="#00000000" />
+             />
 
         <Button
             android:id="@+id/btn1"

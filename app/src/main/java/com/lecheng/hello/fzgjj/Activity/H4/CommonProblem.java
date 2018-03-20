@@ -9,18 +9,14 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.BaseAdapter;
-import com.ck.hello.nestrefreshlib.View.Adpater.Base.ItemHolder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.SimpleViewHolder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Impliment.DefaultStateListener;
 import com.ck.hello.nestrefreshlib.View.Adpater.Impliment.PositionHolder;
 import com.ck.hello.nestrefreshlib.View.Adpater.Impliment.SAdapter;
 import com.lecheng.hello.fzgjj.Activity.Unit.ActionBar;
-import com.lecheng.hello.fzgjj.Adpt.Common.UnityAdapter;
-import com.lecheng.hello.fzgjj.Adpt.Common.ViewHolder;
 import com.lecheng.hello.fzgjj.Bean.BeanZxlyList;
 import com.lecheng.hello.fzgjj.Interface.IWSListener;
 import com.lecheng.hello.fzgjj.Net.HttpGo;
@@ -31,21 +27,22 @@ import java.util.ArrayList;
 import java.util.List;
 
 import RxWeb.GsonUtil;
-
 import butterknife.Bind;
 import butterknife.ButterKnife;
-import butterknife.OnClick;
 import coms.kxjsj.refreshlayout_master.RefreshLayout;
 
-public class OnlineCommunicate extends Activity implements IWSListener {
+public class CommonProblem extends Activity implements IWSListener {
     @Bind(R.id.lv1)
     RefreshLayout lv1;
+    @Bind(R.id.btn1)
+    Button btn1;
     private int page = 1;
     private SAdapter sAdapter;
     List<BeanZxlyList.DataBeanX.DataBean> datalist = new ArrayList<>();
 
-    private boolean nomore = false, isloading = false;
+    private boolean isloading = false;
     private String sum = "1";
+    private int type;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -53,8 +50,10 @@ public class OnlineCommunicate extends Activity implements IWSListener {
         setContentView(R.layout.online_communicate);
         ButterKnife.bind(this);
         ActionBar frag = (ActionBar) getFragmentManager().findFragmentById(R.id.frag);
-        frag.setTitle("在线问答");
+        frag.setTitle("常见问题");
         initAdapter();
+        type = getIntent().getIntExtra("type", 1);
+        btn1.setVisibility(View.GONE);
         getdata(page);
     }
 
@@ -103,7 +102,6 @@ public class OnlineCommunicate extends Activity implements IWSListener {
                             public void onClick(View v) {
                                 if (!isloading && page > 1) {
                                     isloading = true;
-                                    nomore = false;
                                     getdata(--page);
                                 }
                             }
@@ -132,21 +130,12 @@ public class OnlineCommunicate extends Activity implements IWSListener {
         sAdapter.showStateNotNotify(BaseAdapter.SHOW_LOADING, "");
         RecyclerView recyclerView = lv1.getmScroll();
         recyclerView.setVerticalScrollBarEnabled(false);
-        recyclerView.setLayoutManager(new LinearLayoutManager(OnlineCommunicate.this));
+        recyclerView.setLayoutManager(new LinearLayoutManager(CommonProblem.this));
         recyclerView.setAdapter(sAdapter);
     }
 
     private void getdata(int page) {
-        new HttpGo().httpWebService(this, this, "zxlyList", new String[]{"pageSize", "pageNum"}, new String[]{2 + "", page + ""});
-    }
-
-    @OnClick({R.id.btn1})
-    public void onClick(View view) {
-        switch (view.getId()) {
-            case R.id.btn1:
-                startActivity(new Intent(this, Comments.class));
-                break;
-        }
+        new HttpGo().httpWebService(this, this, "cjwtList", new String[]{"type", "pageSize", "pageNum"}, new String[]{type + "", 2 + "", page + ""});
     }
 
     @Override

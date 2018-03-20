@@ -2,9 +2,12 @@ package com.lecheng.hello.fzgjj.Activity.ReUI;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.SizeUtils;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.ItemHolder;
@@ -19,6 +22,7 @@ import com.lecheng.hello.fzgjj.Activity.H3.PolicyDocs;
 import com.lecheng.hello.fzgjj.Activity.Unit.MyBrowser;
 import com.lecheng.hello.fzgjj.Net.Api;
 import com.lecheng.hello.fzgjj.R;
+import com.lecheng.hello.fzgjj.Widget.SettingView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -41,7 +45,7 @@ public class ToolNewFragmnet extends BaseFragment {
 //            R.drawable.gj3, R.drawable.gj4, R.drawable.gj5, R.drawable.gj6, R.drawable.gj8,
 //            R.drawable.gj7};
 private String[] array = {"政策法规", "贷款额度测算",
-            "贷款还款测算", "一至三十年月均\n还款金额简表", "表格下载"};
+            "贷款还款测算", "一至三十年月均还款金额简表", "表格下载"};
 //    一至三十年月均还款金额简表
     private int[] arrImgRes = { R.drawable.gj1, R.drawable.gj4, R.drawable.gj5,
             R.drawable.gj7,R.drawable.gj8};
@@ -58,11 +62,13 @@ private String[] array = {"政策法规", "贷款额度测算",
     protected void loadLazy() {
         List<String> list = Arrays.asList(array);
         final RecyclerView recyclerView = refreshLayout.getmScroll();
-        int i = SizeUtils.dp2px(15);
-        refreshLayout.setPadding(i,0,i,0);
-        recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        DividerItemDecoration decor = new DividerItemDecoration(getContext(), LinearLayout.VERTICAL);
+        decor.setDrawable(getResources().getDrawable(R.drawable.list_divider_material));
+        recyclerView.addItemDecoration(decor);
         final SAdapter sAdapter = new SAdapter<String>(list)
-                .addType(R.layout.item_, new ItemHolder<String>() {
+//        item_
+                .addType(R.layout.settingview, new ItemHolder<String>() {
                     @Override
                     public void onBind(SimpleViewHolder simpleViewHolder, String s, final int i) {
 //                        int height = refreshLayout.getHeight();
@@ -71,8 +77,9 @@ private String[] array = {"政策法规", "贷款额度测算",
 //                        LinearLayout linearLayout=simpleViewHolder.getView(R.id.root);
 //                        linearLayout.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.BOTTOM);
 
-                        simpleViewHolder.setText(R.id.tv1, s);
-                        simpleViewHolder.setImageResource(R.id.iv1, arrImgRes[i]);
+                        SettingView settingView=simpleViewHolder.getView(R.id.settingview);
+                        settingView.setTitleText(s);
+                        settingView.setTitledrawable(arrImgRes[i],0,0,0);
                         simpleViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -116,7 +123,7 @@ private String[] array = {"政策法规", "贷款额度测算",
 
     @Override
     protected int getLayoutId() {
-        return R.layout.home3;
+        return R.layout.home4;
     }
 
     @Override

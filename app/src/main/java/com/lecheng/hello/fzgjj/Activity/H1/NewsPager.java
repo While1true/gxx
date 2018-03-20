@@ -72,28 +72,28 @@ public class NewsPager extends BaseFragment implements IWSListener {
 
     @Override
     protected void initView(Bundle savedInstanceState) {
-        refreshLayout= (RefreshLayout) view.findViewById(R.id.refreshLayout);
+        refreshLayout = (RefreshLayout) view.findViewById(R.id.refreshLayout);
         initAdapter();
     }
 
     @Override
     protected void loadLazy() {
         switch (mPage) {
-            case 1:
+            case 2:
                 code = "GZDT";
                 break;
-            case 2:
+            case 3:
                 code = "ZCFG";
                 break;
-            case 3:
-                code = "BSZN";
+            case 1:
+                code = "TZGG";
                 break;
             case 4:
 //                code = "CJWT";
                 code = "ZWGK";
                 break;
         }
-        sAdapter.showStateNotNotify(SAdapter.SHOW_LOADING,null);
+        sAdapter.showStateNotNotify(SAdapter.SHOW_LOADING, null);
         sAdapter.notifyItemInserted(0);
         httpPost(code, listPage);
     }
@@ -105,7 +105,8 @@ public class NewsPager extends BaseFragment implements IWSListener {
 
     private void httpPost(String code, int page) {
         LinkedHashMap<String, String> map = new LinkedHashMap<>(4);
-        map.put("code", code.equals("GZDT") ? "GZDT" : "YJCDCX");
+//        map.put("code", code.equals("GZDT") ? "GZDT" : "YJCDCX");
+        map.put("code", code.equals("ZCFG") ? "YJCDCX" : "GZDT");
         map.put("pcode", code);
         map.put("page", page + "");
 
@@ -119,7 +120,7 @@ public class NewsPager extends BaseFragment implements IWSListener {
                     @Override
                     public void onError(Throwable e) {
                         refreshLayout.NotifyCompleteRefresh0();
-                        if(listPage==1){
+                        if (listPage == 1) {
                             sAdapter.ShowError();
                         }
                         if (Constance.DEBUGTAG)
@@ -132,34 +133,34 @@ public class NewsPager extends BaseFragment implements IWSListener {
     public void onWebServiceSuccess(String s) {
         try {
             final BeanInfoList bean = GsonUtil.GsonToBean(s, BeanInfoList.class);
-            if (mPage == 1&&listPage==1) {
+            if (mPage == 1 && listPage == 1) {
                 MySP.saveData(getActivity(), "home1page1", s);
             }
             refreshLayout.NotifyCompleteRefresh0();
             if (bean.getData().size() < 1) {
-                if(listPage==1){
+                if (listPage == 1) {
                     refreshLayout.setCanFooter(false);
                     sAdapter.ShowError();
-                }else {
+                } else {
                     refreshLayout.setCanFooter(false);
-                    sAdapter.showState(SAdapter.SHOW_NOMORE,"没有更多了");
+                    sAdapter.showState(SAdapter.SHOW_NOMORE, "没有更多了");
                 }
                 return;
             }
 
-            if(listPage==1){
+            if (listPage == 1) {
                 int itemCount = sAdapter.getItemCount();
                 dataBeans.clear();
                 sAdapter.notifyItemRangeRemoved(0, itemCount);
             }
-            int insert=dataBeans.size();
+            int insert = dataBeans.size();
             dataBeans.addAll(bean.getData());
-            sAdapter.showStateNotNotify(SAdapter.TYPE_ITEM,null);
+            sAdapter.showStateNotNotify(SAdapter.TYPE_ITEM, null);
             sAdapter.notifyItemInserted(insert);
         } catch (Exception e) {
             e.printStackTrace();
             refreshLayout.NotifyCompleteRefresh0();
-            if(listPage==1){
+            if (listPage == 1) {
                 sAdapter.ShowError();
             }
 //            httpPost(code, listPage);
@@ -176,7 +177,7 @@ public class NewsPager extends BaseFragment implements IWSListener {
                         holder.setText(R.id.tv1, item.getTitle());
                         holder.setText(R.id.tv2, item.getUpdatedate().substring(0, 11));
                         String source = item.getSource();
-                        holder.setText(R.id.from, TextUtils.isEmpty(source)?"":("来源："+source));
+                        holder.setText(R.id.from, TextUtils.isEmpty(source) ? "" : ("来源：" + source));
                         holder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -209,7 +210,7 @@ public class NewsPager extends BaseFragment implements IWSListener {
                 });
 
         RecyclerView recyclerView = refreshLayout.findInScrollView(R.id.recyclerview);
-        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(),DividerItemDecoration.VERTICAL));
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), DividerItemDecoration.VERTICAL));
         refreshLayout.setListener(new RefreshLayout.Callback1<RefreshLayout.State>() {
             @Override
             public void call(RefreshLayout.State state) {
@@ -225,7 +226,7 @@ public class NewsPager extends BaseFragment implements IWSListener {
             @Override
             public void call(RefreshLayout.State state, int scroll) {
                 super.call(state, scroll);
-                System.out.println("call"+state+"--"+scroll);
+                System.out.println("call" + state + "--" + scroll);
             }
         });
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));

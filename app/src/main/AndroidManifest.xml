@@ -186,6 +186,9 @@
             android:name=".Activity.H4.OnlineCommunicate"
             android:screenOrientation="portrait" />
         <activity
+            android:name=".Activity.H4.CommonProblem"
+            android:screenOrientation="portrait" />
+        <activity
             android:name=".Activity.H4.Puzzle"
             android:screenOrientation="portrait" />
         <activity

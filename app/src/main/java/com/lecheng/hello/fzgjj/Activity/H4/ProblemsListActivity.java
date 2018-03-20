@@ -27,6 +27,7 @@ public class ProblemsListActivity extends BaseTitleActivity {
     Button deposite;
     @Bind(R.id.other)
     Button other;
+    private boolean iscommon;
 
     @Override
     protected int getContentLayoutId() {
@@ -36,28 +37,34 @@ public class ProblemsListActivity extends BaseTitleActivity {
     @Override
     protected void initView(Bundle savedInstanceState) {
         ButterKnife.bind(this);
-        setTitle("疑难解答");
-
+        iscommon = getIntent().getBooleanExtra("iscommon", false);
+        if (iscommon)
+            setTitle("常见问题");
+        else
+            setTitle("疑难解答");
 
     }
 
 
-
     @OnClick({R.id.draw, R.id.loan, R.id.deposite, R.id.other})
     public void onViewClicked(View view) {
-        Intent intent=new Intent(this,Puzzle.class);
+        Intent intent = null;
+        if (iscommon)
+            intent = new Intent(this, CommonProblem.class);
+        else
+            intent = new Intent(this, Puzzle.class);
         switch (view.getId()) {
             case R.id.draw:
-                intent.putExtra("type",1);
+                intent.putExtra("type", 1);
                 break;
             case R.id.loan:
-                intent.putExtra("type",2);
+                intent.putExtra("type", 2);
                 break;
             case R.id.deposite:
-                intent.putExtra("type",3);
+                intent.putExtra("type", 3);
                 break;
             case R.id.other:
-                intent.putExtra("type",4);
+                intent.putExtra("type", 4);
                 break;
         }
         startActivity(intent);

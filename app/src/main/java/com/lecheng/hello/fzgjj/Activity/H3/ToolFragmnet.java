@@ -2,9 +2,11 @@ package com.lecheng.hello.fzgjj.Activity.H3;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
+import android.widget.LinearLayout;
 
 import com.blankj.utilcode.util.SizeUtils;
 import com.ck.hello.nestrefreshlib.View.Adpater.Base.ItemHolder;
@@ -13,6 +15,7 @@ import com.ck.hello.nestrefreshlib.View.Adpater.Impliment.SAdapter;
 import com.lecheng.hello.fzgjj.Activity.Unit.MyBrowser;
 import com.lecheng.hello.fzgjj.Net.Api;
 import com.lecheng.hello.fzgjj.R;
+import com.lecheng.hello.fzgjj.Widget.SettingView;
 
 import java.util.Arrays;
 import java.util.List;
@@ -50,9 +53,10 @@ public class ToolFragmnet extends BaseFragment {
         final RecyclerView recyclerView = refreshLayout.getmScroll();
         int i = SizeUtils.dp2px(15);
         refreshLayout.setPadding(i,0,i,0);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayout.VERTICAL));
         recyclerView.setLayoutManager(new GridLayoutManager(getContext(), 3));
         final SAdapter sAdapter = new SAdapter<String>(list)
-                .addType(R.layout.item_, new ItemHolder<String>() {
+                .addType(R.layout.settingview, new ItemHolder<String>() {
                     @Override
                     public void onBind(SimpleViewHolder simpleViewHolder, String s, final int i) {
 //                        int height = refreshLayout.getHeight();
@@ -60,9 +64,9 @@ public class ToolFragmnet extends BaseFragment {
 //                        simpleViewHolder.itemView.getLayoutParams().height=eachHeight;
 //                        LinearLayout linearLayout=simpleViewHolder.getView(R.id.root);
 //                        linearLayout.setGravity(Gravity.CENTER_HORIZONTAL|Gravity.BOTTOM);
-
-                        simpleViewHolder.setText(R.id.tv1, s);
-                        simpleViewHolder.setImageResource(R.id.iv1, arrImgRes[i]);
+                        SettingView settingView=simpleViewHolder.getView(R.id.settingview);
+                        settingView.setTitleText(s);
+                        settingView.setTitledrawable(arrImgRes[i],0,0,0);
                         simpleViewHolder.itemView.setOnClickListener(new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
@@ -112,7 +116,7 @@ public class ToolFragmnet extends BaseFragment {
 
     @Override
     protected int getLayoutId() {
-        return R.layout.home3;
+        return R.layout.home4;
     }
 
     @Override

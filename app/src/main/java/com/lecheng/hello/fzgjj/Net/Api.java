@@ -8,10 +8,10 @@ package com.lecheng.hello.fzgjj.Net;
 public class Api {
     //超时时间
     public static int TIME_OUT = 12000;
-//    public static final String URL = "http://120.35.30.201:8083/gjjAndroid/services/GjjController?wsdl";
-    public static final String URLMESSAGE = "http://120.35.30.201:8083/message/services/SendMessageWebService?wsdl";
-//    public static final String URLMESSAGE="http://10.0.110.117:8090/message/Services/SendMessageWebService?wsdl";
-    public static final String URL="http://10.0.110.127:8080/gjjAndroid/services/GjjController?wsdl";
+//    public static final String URL = "http://120.35.30.201:8083/gjjAndroid/-/GjjController?wsdl";
+    public static final String URLMESSAGE = "http://120.35.30.201:8083/message/-/SendMessageWebService?wsdl";
+//    public static final String URLMESSAGE="http://10.0.110.117:8090/message/-/SendMessageWebService?wsdl";
+    public static final String URL="http://10.0.110.127:8080/gjjAndroid/-/GjjController?wsdl";
 
     public static final String NAMESPACE_MESSAGE = "http://impl.ws.message.grid.com";
     public static final String NAMESPACE_ = "http://xml.apache.org/xml-soap";
